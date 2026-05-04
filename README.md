@@ -1,8 +1,6 @@
 # MiroFish Railway Template
 
-Template-only repository for deploying **MiroFish** on Railway using the prebuilt image:
-
-- `rezadevil/mirofish:latest`
+Template-only repository for deploying **MiroFish** on Railway using the prebuilt image configured in `Dockerfile` (currently `testing-prod:latest`).
 
 This repo does not include MiroFish application source code.
 
@@ -33,12 +31,15 @@ Optional:
 
 ```env
 BACKEND_PORT=5001
+BACKEND_WORKERS=2
+VITE_API_BASE_URL=http://localhost:5001
 ```
 
 ## Runtime behavior
 
-- Railway injects `PORT`; frontend listens on that port.
-- Backend runs on internal port `5001` (or `BACKEND_PORT`).
+- On container start, frontend is built via `npm --prefix frontend run build`.
+- Railway injects `PORT`; frontend is served with `vite preview` on that port.
+- Backend runs via Gunicorn on internal port `5001` (or `BACKEND_PORT`).
 - For persistent uploads/simulation data, mount a Railway Volume at `/app/backend/uploads`.
 
 ## Upstream project
